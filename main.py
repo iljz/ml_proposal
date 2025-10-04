@@ -211,5 +211,5 @@ st.markdown("""
 ### Planning
 Gantt Chart:
 """)
-st.pdf("gantt.pdf")
+st.pdf("./gantt.pdf")
 st.caption("Project Gantt Chart (PDF view)")
