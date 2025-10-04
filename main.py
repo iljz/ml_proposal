@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
+import base64
+
 
 # --- Page Configuration ---
 # Set the page to a wide layout for a more report-like feel
@@ -211,5 +213,10 @@ st.markdown("""
 ### Planning
 Gantt Chart:
 """)
-st.pdf("gantt.pdf")
-st.caption("Project Gantt Chart (PDF view)")
+pdf_path = "gantt.pdf"
+
+with open(pdf_path, "rb") as f:
+    base64_pdf = base64.b64encode(f.read()).decode("utf-8")
+
+pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800" type="application/pdf"></iframe>'
+st.markdown(pdf_display, unsafe_allow_html=True)
