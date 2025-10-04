@@ -211,5 +211,14 @@ st.markdown("""
 ### Planning
 Gantt Chart:
 """)
-st.pdf("./gantt.pdf")
-st.caption("Project Gantt Chart (PDF view)")
+
+with open("gantt.pdf", "rb") as pdf_file:
+    gantt_pdf_bytes = pdf_file.read()
+
+st.download_button(
+    label="Gantt Chart (PDF download)",
+    data=gantt_pdf_bytes,
+    file_name="gantt.pdf",
+    mime="application/pdf"
+)
+
