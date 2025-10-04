@@ -195,3 +195,19 @@ st.markdown("""
 3. Deepseek: arXiv:2501.12948
 4. Kimi K2: arXiv:2507.20534
 """)
+
+st.header("6. Contributions and Planning")
+st.markdown("""
+
+### Individual Contributions 
+* Isaac Luo - Methods Section, Slides, Website setup, Video 
+* Jeff Xu - Intro Section, Methods Section, Slides, Website setup, Video
+* Chengqi - Methods, metrics, potential results
+* Arya - Problem and Motivation, Slides
+* Aashutosh - Methods, Evaluation, Slides
+
+### Planning
+Gantt Chart:
+""")
+st.pdf("gantt.pdf")
+st.caption("Project Gantt Chart (PDF view)")
