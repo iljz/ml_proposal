@@ -76,7 +76,7 @@ st.title("Machine Learning Project Proposal")
 st.markdown('<h2 style="text-align: center; border-bottom: none;">Cramming Post-Training in a Day on desktop GPUs</h2>', unsafe_allow_html=True)
 st.markdown("""
 <div class="author-info">
-    <strong>Author(s):</strong> Arya Anantula, Aashutosh, Isaac Lo, Chengqi Luo, Jeff Xu<br>
+    <strong>Author(s):</strong> Arya Anantula, Aashutosh Aripirala, Isaac Lo, Chengqi Luo, Jeff Xu<br>
     <strong>Course:</strong> CS7641 - Machine Learning<br>
     <strong>Date:</strong> October 3, 2025
 </div>
@@ -90,13 +90,11 @@ Post-training in LLM’s has become more and more important whereby
 models are pushed to output tokens purely for the purpose of “thinking” 
 before answering. The dominant paradigm combines supervised fine-tuning 
 (SFT) and reinforcement learning (RL): SFT guides models toward structured 
-reasoning traces, while RL—with algorithms such as Proximal Policy 
-Optimization (PPO) and Group Relative Policy Optimization (GRPO)—teaches 
+reasoning traces, while RL, with algorithms such as Proximal Policy 
+Optimization (PPO) and Group Relative Policy Optimization (GRPO), teaches 
 them to refine and strengthen their reasoning abilities. Compared to the 
 massive cost of pre-training, post-training requires only a fraction of the compute, yet remains 
-prohibitively inaccessible for most practitioners. Motivated by this challenge, and inspired by prior work, 
-we ask: how capable a model can one build under an extremely constrained budget—just a single commodity GPU and one 
-day of training—by leveraging the latest efficiency-oriented training techniques?
+prohibitively inaccessible for most practitioners. 
 
 Literature Review:
 - **Cramming**: Demonstrates that LLMs can achieve competitive performance even when pre-trained under strict compute and time constraints, motivating research towards resource-efficient model pre-training. 
@@ -119,13 +117,17 @@ st.markdown("""
 Recent advancements in language modeling rely on scaling up model sizes and training compute, making it infeasible for most researchers and ML practitioners to train models from scratch. Only labs and companies with access to abundant compute resources can experiment with pre-training. This creates a barrier to entry that limits innovation and reproducibility. 
 
 **Motivation:**
+Motivated by the problem of massive training costs, and inspired by prior work, 
+we ask: how capable a model can one build under an extremely constrained budget, just a single commodity GPU and one 
+day of training, by leveraging the latest efficiency-oriented training techniques?
+
 By exploring how far we can go with constrained resources (e.g., training a transformer model on a single GPU in one day), we can uncover insights and techniques that help democratize ML research. Achieving competitive performance under tight compute budgets not only enables broader participation by letting researchers test new ideas without massive budgets, but also gives practitioners a practical way to train models on their own specialized data.
 """)
 
 # --- Methods ---
 st.header("3. Methods")
 st.markdown("""
-This section details the experimental framework designed to train a capable reasoning model under a highly constrained compute budget—a single commodity GPU and one day of training. Our approach centers on a multi-stage post-training pipeline, incorporating state-of-the-art, efficiency-oriented techniques.
+This section details the experimental framework designed to train a capable reasoning model under a highly constrained compute budget: a single commodity GPU and one day of training. Our approach centers on a multi-stage post-training pipeline, incorporating state-of-the-art, efficiency-oriented techniques.
 """)
 
 st.subheader("3.1. Base Model Selection")
@@ -200,15 +202,16 @@ st.header("6. Contributions and Planning")
 st.markdown("""
 
 ### Individual Contributions 
-* Isaac Luo - Methods Section, Slides, Website setup, Video 
+* Isaac Lo - Methods Section, Slides, Website setup, Video 
 * Jeff Xu - Intro Section, Methods Section, Slides, Website setup, Video
-* Chengqi - Methods, metrics, potential results
-* Arya - Problem and Motivation, Slides
-* Aashutosh - Methods, Evaluation, Slides
+* Chengqi Luo - Methods, metrics, potential results
+* Arya Anantula - Problem and Motivation, Slides
+* Aashutosh Aripirala - Methods, Evaluation, Slides
 
 ### Planning
 Gantt Chart:
 """)
+
 with open("gantt.pdf", "rb") as pdf_file:
     gantt_pdf_bytes = pdf_file.read()
 
@@ -218,3 +221,4 @@ st.download_button(
     file_name="gantt.pdf",
     mime="application/pdf"
 )
+
