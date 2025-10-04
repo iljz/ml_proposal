@@ -76,7 +76,7 @@ st.title("Machine Learning Project Proposal")
 st.markdown('<h2 style="text-align: center; border-bottom: none;">Cramming Post-Training in a Day on desktop GPUs</h2>', unsafe_allow_html=True)
 st.markdown("""
 <div class="author-info">
-    <strong>Author(s):</strong> Arya Anantula, Aashutosh, Isaac Lo, Chengqi Luo, Jeff Xu<br>
+    <strong>Author(s):</strong> Arya Anantula, Aashutosh Aripirala, Isaac Lo, Chengqi Luo, Jeff Xu<br>
     <strong>Course:</strong> CS7641 - Machine Learning<br>
     <strong>Date:</strong> October 3, 2025
 </div>
