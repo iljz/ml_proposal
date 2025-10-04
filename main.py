@@ -202,11 +202,11 @@ st.header("6. Contributions and Planning")
 st.markdown("""
 
 ### Individual Contributions 
-* Isaac Luo - Methods Section, Slides, Website setup, Video 
+* Isaac Lo - Methods Section, Slides, Website setup, Video 
 * Jeff Xu - Intro Section, Methods Section, Slides, Website setup, Video
-* Chengqi - Methods, metrics, potential results
-* Arya - Problem and Motivation, Slides
-* Aashutosh - Methods, Evaluation, Slides
+* Chengqi Luo - Methods, metrics, potential results
+* Arya Anantula - Problem and Motivation, Slides
+* Aashutosh Aripirala - Methods, Evaluation, Slides
 
 ### Planning
 Gantt Chart:
