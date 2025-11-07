@@ -128,13 +128,15 @@ By exploring how far we can go with constrained resources (e.g., training a tran
 st.header("3. Methods")
 st.markdown("""
 This section details the experimental framework designed to train a capable reasoning model under a highly constrained compute budget: a single commodity GPU and one day of training. Our approach centers on a multi-stage post-training pipeline, incorporating state-of-the-art, efficiency-oriented techniques.
+
+Since the project proposal, we’ve managed to implement and run a number of the methods we proposed. We document our progress, findings, and struggles below.
+
 """)
 
 st.subheader("3.1. Base Model Selection")
 st.markdown("""
-The selection of a base model is critical, as its pre-trained capabilities form the foundation for our post-training enhancements. Our primary candidate is a Qwen model, selected for its strong performance as a state-of-the-art pre-trained transformer. Crucially, we will select a version that has not undergone prior instruction tuning or Chain-of-Thought (CoT) fine-tuning to ensure a clean baseline for our experiments.
-
-As a secondary candidate, we will consider an older, well-established model such as Llama 3. This allows us to evaluate the generalizability of our post-training pipeline on different model architectures. A key validation step for both models will be confirming their compatibility with modern frameworks for fine-tuning and reinforcement learning.
+We applied the D4 (Document De-Duplication and Diversification) framework (Tirumala et al., NeurIPS 2023) to improve the quality and diversity of our math training data. Each sample was embedded using the Salesforce SFR-Embedding-Mistral model and clustered in embedding space with K-Means.
+The pipeline first performs semantic de-duplication (SemDeDup) to remove near-duplicate or paraphrased samples within clusters. The resulting set is then re-clustered and filtered via SSL Prototypes, which prioritizes diverse, less prototypical examples. This two-stage process reduces redundancy while broadening topic coverage, yielding a cleaner and more representative dataset for training
 """)
 
 st.subheader("3.2. Data Preprocessing")
@@ -170,6 +172,31 @@ Our core experiment will compare the following three approaches:
 - Cluster-Level GRPO (Proposed Modification): As part of the RL process, we will introduce an unsupervised clustering step. Before calculating rewards, multiple candidate responses from the model will be clustered based on semantic similarity (e.g., using cosine similarity of embeddings). Rewards will then be assigned at the cluster level rather than to individual responses. This technique aims to reduce reward variance and prevent the model from "hacking" the reward by generating trivially different but numerous correct answers.
 """)
 
+st.subheader("3.4. SFT + RL Setup")
+st.markdown("""Since each training run takes a lot of time, we decided to do data preprocessing async of our training runs. In other words, while one set of members was preparing curated/cleaned data, another set of team members was doing SFT+RL runs on other datasets that were already prepared (DAPO-Math). 
+
+Our pipeline adheres to the standard post-training paradigm: an initial Supervised Fine-Tuning (SFT) phase followed by a Reinforcement Learning (RL) phase. We use the Qwen4B-Base model for our experiments. 
+
+Our SFT Phase involves a preliminary finetune of the model on the OpenMathReasoning-mini, to teach the model the required output format etc. For the RL phase, we use the open-r1/DAPO-Math-17k dataset for GRPO training. 
+""")
+
+st.subheader("3.5. Baseline Model")
+st.markdown("""
+Our Baseline model uses the Dr-GRPO Loss function. For each of the batch_size number of prompts in the batch, the GRPOTrainer generates 4 responses, and it generates the rewards for these responses by comparing them only to each other using their mean and standard deviation. 
+
+The Final reward signal is a sum of 2 components:
+
+- Answer Score: A noisy high-variance reward for answer correctness (+5 for a perfect answer, -2 for a wrong one(which could be a typo)
+- Format Score: A deterministic reward for correct formatting
+
+""")
+
+st.subheader("3.6. ClusteredGRPO (Experiment)")
+st.markdown("""
+Our hypothesis is that the baseline's answer score is noisy and unstable. A model can be heavily punished for a simple, "unlucky" typo (e.g. 4.0 vs. 4), which destabilizes training. To solve this, we tried to experiment with a Clustering reward function. We embed the answers to all the prompts in the batch using the all-MiniLM-L6-v2 model, and do a semantic similarity over the answers to group them into clusters. We replace each generation’s noisy individual answer score with the stable average score of the cluster it belongs to. 
+
+The final reward here is the format score + the stabilised cluster answer score. This method, in our proposal, cleans the noisy signals. 
+""")
 
 # --- (Potential) Results and Discussion ---
 st.header("4. (Potential) Results and Discussion")
@@ -188,6 +215,15 @@ Sustainability: We want to minimise total compute expenditure in post-training L
 Expected Results: Improved reasoning accuracy, and maximising performance per unit of inference compute. Cluster-level RL might help stabilize the rewarding mechanism, and reduce reward hacking. The model should aim to think efficiently, generating better reasoning steps with fewer tokens. Overall we want our work results in a model that demonstrates competitive reasoning performance, despite being post-trained under tight constraints. 
 
 """)
+
+st.subheader("4.2. Challenges")
+st.markdown("""
+**Piecewise Execution Issue Encountered**
+
+Piecewise execution divides the computation graph into smaller subgraphs that are executed sequentially, allowing models to run on GPUs with limited memory. It’s a configuration of vLLM, which is the inference engine. In our project, we encountered compatibility issues with piecewise mode on the PACE machines and GPUs (likely due to a vLLM runtime incompatibility) so we had to revert to full-graph mode. However, supporting piecewise execution remains important for enabling inference on smaller GPUs, which is a key emphasis of our work. We aim to look into enabling piecewise and using it in our experiments.
+""")
+
+
 
 # --- Conclusion ---
 st.header("5. References")
