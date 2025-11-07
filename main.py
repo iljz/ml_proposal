@@ -129,7 +129,7 @@ st.header("3. Methods")
 st.markdown("""
 This section details the experimental framework designed to train a capable reasoning model under a highly constrained compute budget: a single commodity GPU and one day of training. Our approach centers on a multi-stage post-training pipeline, incorporating state-of-the-art, efficiency-oriented techniques.
 
-Since the project proposal, we’ve managed to implement and run a number of the methods we proposed. We document our progress, findings, and struggles below.
+Since the project proposal, we’ve managed to implement and run a number of the methods we proposed. 
 
 """)
 
@@ -199,8 +199,10 @@ The final reward here is the format score + the stabilised cluster answer score.
 """)
 
 # --- (Potential) Results and Discussion ---
-st.header("4. (Potential) Results and Discussion")
+st.header("4. Results and Discussion")
 st.markdown("""
+We note our results up to now below:
+
 Quantitative Metrics: 
 Reasoning accuracy - GSM8K
 Pass@1 - measures the percentage of problems for which the model generates the correct final answer in a single attempt.
