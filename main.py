@@ -284,8 +284,8 @@ st.markdown("""
 
 ### Individual Contributions 
 * Isaac Lo - environment setup, parameter sweep scripts
-* Jeff Xu - environment setup, machine setup, wandb setup, sweep setup, data preprocessing, 
-* Chengqi Luo - environmental setup, result analysis. 
+* Jeff Xu - environment setup, machine setup, wandb setup, sweep setup, data preprocessing
+* Chengqi Luo - environmental setup, result analysis
 * Arya Anantula - environment Setup, parameter sweep scripts
 * Aashutosh Aripirala - ClusterGRPO experimentation, environment setup, PACE
 
