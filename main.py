@@ -86,7 +86,7 @@ st.markdown("""
 <div class="author-info">
     <strong>Author(s):</strong> Arya Anantula, Aashutosh Aripirala, Isaac Lo, Chengqi Luo, Jeff Xu<br>
     <strong>Course:</strong> CS7641 - Machine Learning<br>
-    <strong>Date:</strong> October 3, 2025
+    <strong>Date:</strong> November 7, 2025
 </div>
 """, unsafe_allow_html=True)
 
