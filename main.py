@@ -222,7 +222,7 @@ The results were analyzed by tracking three key metrics logged by our system: th
 st.subheader("4.1. Learning Rate Sweep Analysis")
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image("figures/figure1.png", caption="Learning Rate Sweep Analysis", width=700)
+    st.image("figures/figure1.png", caption="Learning Rate Sweep Analysis")
 st.markdown("""
 (GRPO Training Loss vs. Step)
 The results of the sweep demonstrate a clear trade-off between learning speed and stability. 
@@ -230,7 +230,7 @@ GRPO/loss: The training loss shows that the two higher learning rates (1e-5 and 
 """)
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image("figures/figure2.png", caption="GRPO Rewards vs. Step", width=700)
+    st.image("figures/figure2.png", caption="GRPO Rewards vs. Step")
 st.markdown("""
 Reward: This directly measures the model’s ability to produce correct answers. The findings here are definitive:
 - Optimal LR (1e-5): The 1e-5 learning rate (light blue line) achieved the best performance. It shows a stable, consistent increase in reward, plateauing at the highest value of all runs (approx. 0.65-0.7).
@@ -240,7 +240,7 @@ Reward: This directly measures the model’s ability to produce correct answers.
 
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image("figures/figure3.png", caption="GRPO KL vs. Step", width=700)
+    st.image("figures/figure3.png", caption="GRPO KL vs. Step")
 st.markdown("""
 GRPO/KL: The KL divergence, which measures how far the policy model moved from its original SFT state, confirms the reward-metric findings.
 - The 5e-5 run shows a very high and erratic KL, confirming its instability.
@@ -250,7 +250,7 @@ GRPO/KL: The KL divergence, which measures how far the policy model moved from i
 
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image("figures/figure4.png", caption="Grad Norm vs. Step", width=700)
+    st.image("figures/figure4.png", caption="Grad Norm vs. Step")
 st.markdown("""
 Grad Norm
 
