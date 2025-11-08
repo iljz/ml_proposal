@@ -201,21 +201,45 @@ The final reward here is the format score + the stabilised cluster answer score.
 # --- (Potential) Results and Discussion ---
 st.header("4. Results and Discussion")
 st.markdown("""
-We note our results up to now below:
+To manage experiments and analyze results, we built a robust configuration and logging system.
 
-Quantitative Metrics: 
-Reasoning accuracy - GSM8K
-Pass@1 - measures the percentage of problems for which the model generates the correct final answer in a single attempt.
-Inference Efficiency (Compute per token) - FLOPs during inference, Reasoning tokens to Output tokens ratio (thinking to talking?)
-Reward Hacking comparison for clustered rewards vs individual scores
-Reward Model Stability: Track the KL Divergence between the RL-tuned policy and the initial SFT policy. A low divergence coupled with a high reward suggests the model is improving its reasoning without drastically changing its learned behavior in undesirable ways.
+Sweeps we conducted:
+- LR
+- GRPO types
 
-Efficiency: Design training and preprocessing strategies that maximize model performance under strict compute and time constraints.
+To optimize the GRPO training phase, we conducted a parameter sweep focused on the learning rate. We trained the model with four different GRPO learning rates: 1e-6, 5e-6, 1e-5, and 5e-5. 
+The results were analyzed by tracking three key metrics logged by our system: the GRPO loss (grpo/loss), the mean reward for answer correctness (grpo/rewards/check_answer/mean), and the KL divergence from the reference policy (grpo/kl). 
+""")
 
-Sustainability: We want to minimise total compute expenditure in post-training LLMs, to make post-training sustainable. Reducing overall compute translates to fewer GPU hours - lower carbon emissions. The idea of sustainable AI is to democratize big reasoning models. 
+st.subheader("4.1. Learning Rate Sweep Analysis")
+st.image("figures/figure1.png", caption="Learning Rate Sweep Analysis", use_column_width=True)
+st.markdown("""
+(GRPO Training Loss vs. Step)
+The results of the sweep demonstrate a clear trade-off between learning speed and stability. 
+GRPO/loss: The training loss shows that the two higher learning rates (1e-5 and 5e-5) converged to a lower loss value faster than the two lower LRs. The 1e-6 and 5e-6 runs maintained a visibly higher loss throughout training, suggesting they were learning too slowly.
+""")
+st.image("figures/figure2.png", caption="GRPO Rewards vs. Step", use_column_width=True)
+st.markdown("""
+Reward: This directly measures the model’s ability to produce correct answers. The findings here are definitive:
+- Optimal LR (1e-5): The 1e-5 learning rate (light blue line) achieved the best performance. It shows a stable, consistent increase in reward, plateauing at the highest value of all runs (approx. 0.65-0.7).
+- Unstable LR (5e-5): The 5e-5 learning rate (purple line) was too high. While it learned quickly at the start, it became highly unstable, with reward variance increasing dramatically. This suggests the policy was oscillating and unable to converge on a stable, optimal strategy.
+- Suboptimal LRs (1e-6, 5e-6): The 1e-6 and 5e-6 LRs (orange and green lines) learned slowly and plateaued at significantly lower reward levels, failing to match the peak performance of the 1e-5 run.
+""")
 
-Expected Results: Improved reasoning accuracy, and maximising performance per unit of inference compute. Cluster-level RL might help stabilize the rewarding mechanism, and reduce reward hacking. The model should aim to think efficiently, generating better reasoning steps with fewer tokens. Overall we want our work results in a model that demonstrates competitive reasoning performance, despite being post-trained under tight constraints. 
+st.image("figures/figure3.png", caption="GRPO KL vs. Step", use_column_width=True)
+st.markdown("""
+GRPO/KL: The KL divergence, which measures how far the policy model moved from its original SFT state, confirms the reward-metric findings.
+- The 5e-5 run shows a very high and erratic KL, confirming its instability.
+- The 1e-5 run (light blue) shows a healthy, stable increase in KL, indicating it successfully learned a new, better policy without collapsing.
+- The 1e-6 run (orange) had the lowest KL, confirming it learned the least.
+""")
 
+st.image("figures/figure4.png", caption="Grad Norm vs. Step", use_column_width=True)
+st.markdown("""
+Grad Norm
+
+- Grad norm measures the average gradient norm passed during backpropagation. They’re typically used to empirically verify training stability, especially since issues like vanishing and exploding gradients exist.
+- In our data, we observe pretty spiky grad norms, which is expected, but this one stood out in particular at an order of magnitude higher than the rest.
 """)
 
 st.subheader("4.2. Challenges")
@@ -224,6 +248,7 @@ st.markdown("""
 
 Piecewise execution divides the computation graph into smaller subgraphs that are executed sequentially, allowing models to run on GPUs with limited memory. It’s a configuration of vLLM, which is the inference engine. In our project, we encountered compatibility issues with piecewise mode on the PACE machines and GPUs (likely due to a vLLM runtime incompatibility) so we had to revert to full-graph mode. However, supporting piecewise execution remains important for enabling inference on smaller GPUs, which is a key emphasis of our work. We aim to look into enabling piecewise and using it in our experiments.
 """)
+
 
 
 
@@ -240,11 +265,11 @@ st.header("6. Contributions and Planning")
 st.markdown("""
 
 ### Individual Contributions 
-* Isaac Lo - Methods Section, Slides, Website setup, Video 
-* Jeff Xu - Intro Section, Methods Section, Slides, Website setup, Video
-* Chengqi Luo - Methods, metrics, potential results
-* Arya Anantula - Problem and Motivation, Slides
-* Aashutosh Aripirala - Methods, Evaluation, Slides
+* Isaac Lo - environment setup, parameter 
+* Jeff Xu - environment setup, machine setup, wandb setup, sweep setup, data preprocessing, 
+* Chengqi Luo - environmental setup, result analysis. 
+* Arya Anantula - environment Setup, parameter sweep scripts
+* Aashutosh Aripirala - ClusterGRPO experimentation, environment setup, PACE
 
 ### Planning
 Gantt Chart:
