@@ -80,7 +80,7 @@ st.markdown("""
 
 
 # --- Title and Author Information ---
-st.title("Machine Learning Project Proposal")
+st.title("Machine Learning Project Report")
 st.markdown('<h2 style="text-align: center; border-bottom: none;">Cramming Post-Training in a Day on desktop GPUs</h2>', unsafe_allow_html=True)
 st.markdown("""
 <div class="author-info">
