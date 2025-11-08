@@ -67,6 +67,14 @@ st.markdown("""
         margin-bottom: 30px;
         color: #7f8c8d; /* Asbestos */
     }
+    /* Center images */
+    .stImage > div {
+        display: flex;
+        justify-content: center;
+    }
+    img {
+        margin: 0 auto;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -212,13 +220,17 @@ The results were analyzed by tracking three key metrics logged by our system: th
 """)
 
 st.subheader("4.1. Learning Rate Sweep Analysis")
-st.image("figures/figure1.png", caption="Learning Rate Sweep Analysis", width=700)
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image("figures/figure1.png", caption="Learning Rate Sweep Analysis", width=700)
 st.markdown("""
 (GRPO Training Loss vs. Step)
 The results of the sweep demonstrate a clear trade-off between learning speed and stability. 
 GRPO/loss: The training loss shows that the two higher learning rates (1e-5 and 5e-5) converged to a lower loss value faster than the two lower LRs. The 1e-6 and 5e-6 runs maintained a visibly higher loss throughout training, suggesting they were learning too slowly.
 """)
-st.image("figures/figure2.png", caption="GRPO Rewards vs. Step", width=700)
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image("figures/figure2.png", caption="GRPO Rewards vs. Step", width=700)
 st.markdown("""
 Reward: This directly measures the model’s ability to produce correct answers. The findings here are definitive:
 - Optimal LR (1e-5): The 1e-5 learning rate (light blue line) achieved the best performance. It shows a stable, consistent increase in reward, plateauing at the highest value of all runs (approx. 0.65-0.7).
@@ -226,7 +238,9 @@ Reward: This directly measures the model’s ability to produce correct answers.
 - Suboptimal LRs (1e-6, 5e-6): The 1e-6 and 5e-6 LRs (orange and green lines) learned slowly and plateaued at significantly lower reward levels, failing to match the peak performance of the 1e-5 run.
 """)
 
-st.image("figures/figure3.png", caption="GRPO KL vs. Step", width=700)
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image("figures/figure3.png", caption="GRPO KL vs. Step", width=700)
 st.markdown("""
 GRPO/KL: The KL divergence, which measures how far the policy model moved from its original SFT state, confirms the reward-metric findings.
 - The 5e-5 run shows a very high and erratic KL, confirming its instability.
@@ -234,7 +248,9 @@ GRPO/KL: The KL divergence, which measures how far the policy model moved from i
 - The 1e-6 run (orange) had the lowest KL, confirming it learned the least.
 """)
 
-st.image("figures/figure4.png", caption="Grad Norm vs. Step", width=700)
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.image("figures/figure4.png", caption="Grad Norm vs. Step", width=700)
 st.markdown("""
 Grad Norm
 
@@ -245,8 +261,10 @@ Grad Norm
 st.subheader("4.2. Challenges")
 st.markdown("""
 **Piecewise Execution Issue Encountered**
-
 Piecewise execution divides the computation graph into smaller subgraphs that are executed sequentially, allowing models to run on GPUs with limited memory. It’s a configuration of vLLM, which is the inference engine. In our project, we encountered compatibility issues with piecewise mode on the PACE machines and GPUs (likely due to a vLLM runtime incompatibility) so we had to revert to full-graph mode. However, supporting piecewise execution remains important for enabling inference on smaller GPUs, which is a key emphasis of our work. We aim to look into enabling piecewise and using it in our experiments.
+
+**Parameter Sweep Issue Encountered**
+Additionally, when running parameter sweeps, we encountered issues related to model reuse and improper CUDA memory allocation. Running multiple configurations sequentially within the same process caused GPU memory conflicts and instability. To resolve this, we modified our workflow to launch each parameter configuration as a separate process using a bash script, ensuring clean initialization and proper memory handling for each run.
 """)
 
 
