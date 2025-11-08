@@ -212,13 +212,13 @@ The results were analyzed by tracking three key metrics logged by our system: th
 """)
 
 st.subheader("4.1. Learning Rate Sweep Analysis")
-st.image("figures/figure1.png", caption="Learning Rate Sweep Analysis", use_column_width=True)
+st.image("figures/figure1.png", caption="Learning Rate Sweep Analysis", width=700)
 st.markdown("""
 (GRPO Training Loss vs. Step)
 The results of the sweep demonstrate a clear trade-off between learning speed and stability. 
 GRPO/loss: The training loss shows that the two higher learning rates (1e-5 and 5e-5) converged to a lower loss value faster than the two lower LRs. The 1e-6 and 5e-6 runs maintained a visibly higher loss throughout training, suggesting they were learning too slowly.
 """)
-st.image("figures/figure2.png", caption="GRPO Rewards vs. Step", use_column_width=True)
+st.image("figures/figure2.png", caption="GRPO Rewards vs. Step", width=700)
 st.markdown("""
 Reward: This directly measures the model’s ability to produce correct answers. The findings here are definitive:
 - Optimal LR (1e-5): The 1e-5 learning rate (light blue line) achieved the best performance. It shows a stable, consistent increase in reward, plateauing at the highest value of all runs (approx. 0.65-0.7).
@@ -226,7 +226,7 @@ Reward: This directly measures the model’s ability to produce correct answers.
 - Suboptimal LRs (1e-6, 5e-6): The 1e-6 and 5e-6 LRs (orange and green lines) learned slowly and plateaued at significantly lower reward levels, failing to match the peak performance of the 1e-5 run.
 """)
 
-st.image("figures/figure3.png", caption="GRPO KL vs. Step", use_column_width=True)
+st.image("figures/figure3.png", caption="GRPO KL vs. Step", width=700)
 st.markdown("""
 GRPO/KL: The KL divergence, which measures how far the policy model moved from its original SFT state, confirms the reward-metric findings.
 - The 5e-5 run shows a very high and erratic KL, confirming its instability.
@@ -234,7 +234,7 @@ GRPO/KL: The KL divergence, which measures how far the policy model moved from i
 - The 1e-6 run (orange) had the lowest KL, confirming it learned the least.
 """)
 
-st.image("figures/figure4.png", caption="Grad Norm vs. Step", use_column_width=True)
+st.image("figures/figure4.png", caption="Grad Norm vs. Step", width=700)
 st.markdown("""
 Grad Norm
 
@@ -265,7 +265,7 @@ st.header("6. Contributions and Planning")
 st.markdown("""
 
 ### Individual Contributions 
-* Isaac Lo - environment setup, parameter 
+* Isaac Lo - environment setup, parameter sweep scripts
 * Jeff Xu - environment setup, machine setup, wandb setup, sweep setup, data preprocessing, 
 * Chengqi Luo - environmental setup, result analysis. 
 * Arya Anantula - environment Setup, parameter sweep scripts
