@@ -258,6 +258,30 @@ Grad Norm
 - In our data, we observe pretty spiky grad norms, which is expected, but this one stood out in particular at an order of magnitude higher than the rest.
 """)
 
+
+st.subheader("4.3. Data Deduplication Sweep")
+st.markdown("""
+We next examined how data quality filtering within the D4 framework affects downstream performance.
+ Two hyperparameters were varied: the deduplication ratio (r_dedup), controlling the fraction of near-duplicates removed, and the prototype ratio (r_proto), controlling how aggressively diverse examples are retained.
+""")
+st.image("figures/match_results_d4.png", caption="Data Deduplication Sweep Results")
+st.markdown("""
+**Findings:**
+The best configuration combined moderate deduplication (r_dedup = 0.3) with aggressive prototype selection (r_proto = 0.8), achieving 79.23 % Strict Match, a +1.14 % improvement over the unfiltered baseline.
+
+The relationship between r_dedup and r_proto was non-linear: medium deduplication paired with moderate prototype selection (0.5) performed worst, while the same deduplication paired with aggressive selection performed best.
+
+Flexible-extract accuracy remained nearly constant across all settings (87.8 – 88.9 %), showing that reasoning correctness is robust to moderate filtering.
+
+
+Variation appeared mainly in strict-match accuracy, indicating that format learning is more sensitive to data quality than reasoning itself.
+
+
+Key takeaway:
+ The D4 pipeline offers small but consistent gains by removing redundancy and emphasizing diversity.
+ Even marginal improvements are valuable under fixed-budget conditions, though the baseline dataset quality already proved high.
+""")
+
 st.subheader("4.2. Challenges")
 st.markdown("""
 **Piecewise Execution Issue Encountered**
